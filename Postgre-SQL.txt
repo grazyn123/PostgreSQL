@@ -1,0 +1,51 @@
+CREATE TABLE Studenci (
+    id SERIAL PRIMARY KEY,
+    imie VARCHAR(50),
+    nazwisko VARCHAR(50),
+    numer_indeksu VARCHAR(20) UNIQUE,
+    data_urodzenia DATE
+);
+
+CREATE TABLE Kursy (
+    id SERIAL PRIMARY KEY,
+    nazwa_kursu VARCHAR(100),
+    opis TEXT,
+    prowadzacy VARCHAR(100),
+    liczba_godzin INTEGER
+);
+
+INSERT INTO Studenci (imie, nazwisko, numer_indeksu, data_urodzenia) VALUES
+('Anna', 'Nowak', '20240002', '2003-04-22'),
+('Krystian', 'Zalewski', '20240003', '2004-02-14'),
+('Julia', 'Kowalczyk', '20240004', '2001-11-08'),
+('Tomasz', 'Maj', '20240005', '2002-05-20');
+
+INSERT INTO Kursy (nazwa_kursu, opis, prowadzacy, liczba_godzin) VALUES
+('Programowanie w Python', 'Kurs programowania w języku Python od podstaw do zaawansowanych pojęć.', 'Bartłomiej Rybka', 45),
+('Analiza danych', 'Kurs wprowadzający w świat analizy danych używając narzędzi takich jak R i Python.', 'Aleksandra Nowak', 40),
+('Wprowadzenie do AI', 'Podstawy sztucznej inteligencji, uczenia maszynowego, oraz głębokiego uczenia.', 'Piotr Wrona', 50),
+('Historia sztuki', 'Przegląd historyczny najważniejszych kierunków i dzieł w historii sztuki.', 'Ewa Dąb', 30);
+
+
+
+
+/* dodajemy nowego studenta */
+
+INSERT INTO Studenci (imie, nazwisko, numer_indeksu, data_urodzenia) VALUES
+('Tomasz', 'Jaworski', '20240001', '2002-05-16');
+
+/* kursy, które trwają więcej niż 40 godzin*/
+
+SELECT * from Kursy where liczba_godzin > 40;
+
+/* zmieniamy prowadzącego Kurs "Programowanie w Python "*/
+
+UPDATE kursy SET prowadzacy = "Andzej Rybak" WHERE id= 1;
+
+/* Sortowanie studentów według nazwiska */
+
+SELECT nazwisko FROM studenci ORDER BY nazwisko desc
+
+/* zmiejszamy liczbe godzin kursy "Analiza danych" */
+
+UPDATE kursy SET liczba 35 WHERE nazwa_kursu = 'Programowanie w Python';
