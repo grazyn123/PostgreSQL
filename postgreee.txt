@@ -1,0 +1,53 @@
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    age INTEGER
+);
+
+
+CREATE TABLE orders (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES users(id),
+    product VARCHAR(100),
+    amount INTEGER,
+    price NUMERIC(10, 2)
+);
+
+
+INSERT INTO users (name, email, age) VALUES
+('Anna Kowalska', 'anna@example.com', 25),
+('Jan Nowak', 'jan@example.com', 30),
+('Maria Wiśniewska', 'maria@example.com', 28);
+
+
+INSERT INTO orders (user_id, product, amount, price) VALUES
+(1, 'Laptop', 1, 3500.00),
+(2, 'Smartfon', 2, 1200.00),
+(1, 'Monitor', 2, 800.00),
+(3, 'Tablet', 1, 1500.00);
+
+
+
+ Obliczam całkowity koszt zamówień każdego użytkownika
+
+SELECT u.name, SUM(o.amount * o.price) AS total_cost
+FROM users u
+JOIN orders o ON u.id = o.user_id
+GROUP BY u.name;
+
+Szukam użytkownika, który wydał najwięcej na zamówienie
+
+SELECT u.name, SUM(o.amount * o.price) AS total_spent
+FROM users u
+JOIN orders o ON u.id = o.user_id
+GROUP BY u.name
+ORDER BY total_spent DESC
+LIMIT 1;
+
+Szukam ile użytkowników złożyło więcej niż jedno zamówienie
+
+SELECT COUNT(DISTINCT user_id) 
+FROM orders 
+GROUP BY user_id 
+HAVING COUNT(*) > 1;
